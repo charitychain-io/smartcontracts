@@ -8,7 +8,7 @@ If the objective of the campaign is not achieved, everyone is refunded.
 
 /*
 Attention, important warning here!
-This is a beta Version, it should not be used in a production environment
+This is a beta version, it should not be used on the Mainnet Ethereum network
 */
 
 /*
@@ -65,7 +65,7 @@ contract Campaign {
     // the human readable name of the Campaign
     string public name;
     
-    //todo
+    // contract owner address 
     address public owner;
 
     // check the campaign state
@@ -75,7 +75,7 @@ contract Campaign {
         _;
     }
 
-    // if the contribution is valid, then carry on with state changing operations
+    // check if the contribution is valid
     modifier validContribution() {
         // if the msg value is zero or amount raised plus the curent message value
         // is greater than the funding cap, then throw error
@@ -83,7 +83,7 @@ contract Campaign {
         _;
     }
 
-    // if the contribution is a valid refund, then carry on with state
+    //check if this refund request is valid
     modifier validRefund(uint256 _contributionID) {
         Contribution memory refundContribution = contributions[_contributionID];
         // the refund for this contribution is already claimed or the contribution sender is not the msg.sender
@@ -91,7 +91,7 @@ contract Campaign {
         _;
     }
 
-    // only the beneficiary can use the method with this modifier
+    // only the beneficiary of the campaign can use the method with this modifier
     modifier onlybeneficiary() {
         require(msg.sender == beneficiary);
         _;
@@ -108,9 +108,9 @@ contract Campaign {
     event LogContributionRefunded(address _payoutDestination, uint256 _payoutAmount);
     event LogBeneficiaryPayoutMade (address _payoutDestination, uint256 _amountRaised);
     
-
-    
     // the contract constructor
+    //The constructor can receive funds with the `payable` modifier.
+    // To create a campaign, 3 arguments and an initial payment in Eth are required.
     function Campaign(string _name, uint256 _expiry, address _beneficiary) payable public {
         //set the owner
         owner = msg.sender;
@@ -122,7 +122,7 @@ contract Campaign {
         expiry = _expiry;
 
         // set the funding goal in wei, the goal is 2* the first contribution
-        fundingGoal = this.balance*2;
+        fundingGoal = msg.value*2;
 
         // set the campaign funding cap in wei, arbitrarily set at 10x fundingGoal
         fundingCap = fundingGoal*10;
@@ -166,7 +166,6 @@ contract Campaign {
         contributionsBySender[msg.sender].push(contributionID);
         // increase the amount raised by the message value
         amountRaised += msg.value;
-
         // fire the contribution made event
         LogContributionMade(msg.sender);
     }
@@ -178,7 +177,7 @@ contract Campaign {
         LogBeneficiaryPayoutMade(msg.sender, payoutAmount);
     }
 
-    function withdrawRefundContribution(uint256 _contributionID) public atStage(Stages.CampaignFailure) validRefund(_contributionID){
+    function withdrawRefundContribution(uint256 _contributionID) public atStage(Stages.CampaignFailure) validRefund(_contributionID) {
         refundsClaimed[_contributionID] = true;
         // get the contribution for that contribution ID
         Contribution memory refundContribution = contributions[_contributionID];
