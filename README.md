@@ -75,7 +75,7 @@ event LogContributionRefunded(address _payoutDestination, uint256 _payoutAmount)
 event LogBeneficiaryPayoutMade (address _payoutDestination, uint256 _amountRaised);
 ```
 ### Funding Cap
-A `fundingCap` system is implemented, if achieved, he prevents any new contribution.
+A `fundingCap` system is implemented (arbitrarily set at 10x fundingGoal), if achieved, he prevents any new contribution.
 
 ### Static Analysis
 No issues found with solium
