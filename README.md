@@ -11,12 +11,12 @@ Charitychain is the first fundraising platform on which fundraisers must give fi
 ## Current status of smart contract
 The smartcontract is in preparation (work in progress) for a third-party code audit.
 
-## overview
+## Overview
 - This contract manages a single campaign. It's not a Factory
 - All the code is in this class, there is no dependency on third-party libraries
 - There are less than 200 lines of code.
 
-## constructor
+## Constructor
 The constructor can receive funds with the `payable` modifier.
 To create a campaign, 3 arguments and an initial payment in Eth are required.
 
@@ -38,7 +38,7 @@ As long as the end date is not exceeded, the campaign continues, even if the goa
  - Beneficiary
  - Owner
 
-## contribute 
+## Contribute 
 The `contribute()` transaction is only available in the `CampaignInprogress` state. A `contributionID` is created for each contribution. This ID is associated with the contributor's address.
 ## Possible scenarios
 ### The campaign success
@@ -66,7 +66,7 @@ There is an emergency mechanism that force expiry of campaign an allows everyone
     }
 ```
 
-## useful information
+## Informations
 ### events
 the smart contracts can fire 3 events: 
 ```sh
