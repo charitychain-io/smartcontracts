@@ -88,4 +88,4 @@ No issues found with solium
 - Code Review
 - Code Audit
 
-> Credit: This contract has been rewritten several times a year ago, it is it is now mainly inspired by the Weifund project because in my opinion, it is the simplest and most elegant implementation of crowdfunding smart contract on Ethereum. 
+> Credit: This contract has been rewritten several times a year ago, it is now mainly inspired by the Weifund project because in my opinion, it is the simplest and most elegant implementation of crowdfunding smart contract on Ethereum. 
